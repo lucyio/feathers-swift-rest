@@ -36,10 +36,13 @@ final public class RestProvider: Provider {
                 return
             }
             let request = vSelf.buildRequest(from: endpoint)
+            let methodName = "\(Mirror(reflecting: endpoint.method).children.first?.label ?? "")"
+            print("<REST> started \(endpoint.path):\(methodName) at \(Date().timeIntervalSince1970)")
             Alamofire.request(request)
                 .validate()
                 .response(responseSerializer: DataRequest.jsonResponseSerializer()) { [weak self] response in
                     guard let vSelf = self else { return }
+                    print("<REST> finsihed \(endpoint.path):\(methodName) at \(Date().timeIntervalSince1970)")
                     let result = vSelf.handleResponse(response)
                     if let error = result.error {
                         observer.send(error: error)
