@@ -7,10 +7,9 @@
 //
 
 import Foundation
-import Feathers
 
 public protocol RestProviderAnalyticsDelegate: class {
     
-    func willSendRequest(to endpoint: Endpoint)
-    func didReceiveResponse(from endpoint: Endpoint)
+    func willSendRequest(_ id: String, requestURL url: URL?)
+    func didReceiveResponse(_ id: String, requestURL url: URL?)
 }

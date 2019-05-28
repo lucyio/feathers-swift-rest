@@ -37,18 +37,13 @@ final public class RestProvider: Provider {
                 return
             }
             let request = vSelf.buildRequest(from: endpoint)
-//            let methodName = "\(Mirror(reflecting: endpoint.method).children.first?.label ?? "")"
-//            print("<REST> started \(endpoint.path):\(methodName) at \(Date().timeIntervalSince1970)")
-            vSelf.analyticsDelegate?.willSendRequest(to: endpoint)
+            let id = "\(endpoint.path):\(Mirror(reflecting: endpoint.method).children.first?.label ?? "")"
+            vSelf.analyticsDelegate?.willSendRequest(id, requestURL: request.url)
             Alamofire.request(request)
                 .validate()
-                .response(responseSerializer: DataRequest.jsonResponseSerializer()) { [weak self, weak endpoint] response in
+                .response(responseSerializer: DataRequest.jsonResponseSerializer()) { [weak self] response in
                     guard let vSelf = self else { return }
-                    
-                    if let unwrappedEndpoint = endpoint {
-//                        print("<REST> finsihed \(unwrappedEndpoint.path):\(methodName) at \(Date().timeIntervalSince1970)")
-                        vSelf.analyticsDelegate?.didReceiveResponse(from: unwrappedEndpoint)
-                    }
+                    vSelf.analyticsDelegate?.didReceiveResponse(id, requestURL: response.request?.url)
                     
                     let result = vSelf.handleResponse(response)
                     if let error = result.error {
