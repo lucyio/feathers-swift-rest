@@ -8,8 +8,7 @@
 
 import Foundation
 import Alamofire
-import enum Result.Result
-import enum Result.NoError
+import Result
 import Feathers
 import ReactiveSwift
 
@@ -46,11 +45,12 @@ final public class RestProvider: Provider {
                     vSelf.analyticsDelegate?.didReceiveResponse(id, requestURL: response.request?.url)
                     
                     let result = vSelf.handleResponse(response)
-                    if let error = result.error {
-                        observer.send(error: error)
-                    } else if let response = result.value {
+                    do {
+                        let response = try result.get()
                         observer.send(value: response)
-                    } else {
+                    } catch let error where error is AnyFeathersError {
+                        observer.send(error: error as! AnyFeathersError)
+                    } catch {
                         observer.send(error: AnyFeathersError(FeathersNetworkError.unknown))
                     }
             }
@@ -99,11 +99,12 @@ final public class RestProvider: Provider {
                 .validate()
                 .response(responseSerializer: DataRequest.jsonResponseSerializer()) { response in
                     let result = vSelf.handleResponse(response)
-                    if let error = result.error {
-                        observer.send(error: error)
-                    } else if let response = result.value {
+                    do {
+                        let response = try result.get()
                         observer.send(value: response)
-                    } else {
+                    } catch let error where error is AnyFeathersError {
+                        observer.send(error: error as! AnyFeathersError)
+                    } catch {
                         observer.send(error: AnyFeathersError(FeathersNetworkError.unknown))
                     }
             }
@@ -114,7 +115,7 @@ final public class RestProvider: Provider {
     ///
     /// - Parameter dataResponse: Alamofire data response.
     /// - Returns: Result with an error or a successful response.
-    private func handleResponse(_ dataResponse: DataResponse<Any>) -> Result<Response, AnyFeathersError> {
+    private func handleResponse(_ dataResponse: DataResponse<Any>) -> Swift.Result<Response, AnyFeathersError> {
         // If the status code maps to a feathers error code, return that error.
         if let statusCode = dataResponse.response?.statusCode,
             let feathersError = FeathersNetworkError(statusCode: statusCode) {
