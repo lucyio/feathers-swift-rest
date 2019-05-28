@@ -20,6 +20,7 @@ final public class RestProvider: Provider {
     }
 
     public let baseURL: URL
+    public weak var analyticsDelegate: RestProviderAnalyticsDelegate?
 
     public init(baseURL: URL) {
         self.baseURL = baseURL
@@ -36,13 +37,19 @@ final public class RestProvider: Provider {
                 return
             }
             let request = vSelf.buildRequest(from: endpoint)
-            let methodName = "\(Mirror(reflecting: endpoint.method).children.first?.label ?? "")"
-            print("<REST> started \(endpoint.path):\(methodName) at \(Date().timeIntervalSince1970)")
+//            let methodName = "\(Mirror(reflecting: endpoint.method).children.first?.label ?? "")"
+//            print("<REST> started \(endpoint.path):\(methodName) at \(Date().timeIntervalSince1970)")
+            vSelf.analyticsDelegate?.willSendRequest(to: endpoint)
             Alamofire.request(request)
                 .validate()
-                .response(responseSerializer: DataRequest.jsonResponseSerializer()) { [weak self] response in
+                .response(responseSerializer: DataRequest.jsonResponseSerializer()) { [weak self, weak endpoint] response in
                     guard let vSelf = self else { return }
-                    print("<REST> finsihed \(endpoint.path):\(methodName) at \(Date().timeIntervalSince1970)")
+                    
+                    if let unwrappedEndpoint = endpoint {
+//                        print("<REST> finsihed \(unwrappedEndpoint.path):\(methodName) at \(Date().timeIntervalSince1970)")
+                        vSelf.analyticsDelegate?.didReceiveResponse(from: unwrappedEndpoint)
+                    }
+                    
                     let result = vSelf.handleResponse(response)
                     if let error = result.error {
                         observer.send(error: error)

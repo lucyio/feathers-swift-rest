@@ -36,6 +36,10 @@
 		F25638C5224BA3CE00A190FD /* PropertySubquerySet.swift in Sources */ = {isa = PBXBuildFile; fileRef = F25638C3224BA3CE00A190FD /* PropertySubquerySet.swift */; };
 		F25638C6224BA3CE00A190FD /* PropertySubquerySet.swift in Sources */ = {isa = PBXBuildFile; fileRef = F25638C3224BA3CE00A190FD /* PropertySubquerySet.swift */; };
 		F25638C7224BA3CE00A190FD /* PropertySubquerySet.swift in Sources */ = {isa = PBXBuildFile; fileRef = F25638C3224BA3CE00A190FD /* PropertySubquerySet.swift */; };
+		F2CD2B2F229D8E3A0070AEF4 /* RestProviderAnalyticsDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2CD2B2E229D8E3A0070AEF4 /* RestProviderAnalyticsDelegate.swift */; };
+		F2CD2B30229D8E3A0070AEF4 /* RestProviderAnalyticsDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2CD2B2E229D8E3A0070AEF4 /* RestProviderAnalyticsDelegate.swift */; };
+		F2CD2B31229D8E3A0070AEF4 /* RestProviderAnalyticsDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2CD2B2E229D8E3A0070AEF4 /* RestProviderAnalyticsDelegate.swift */; };
+		F2CD2B32229D8E3A0070AEF4 /* RestProviderAnalyticsDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2CD2B2E229D8E3A0070AEF4 /* RestProviderAnalyticsDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -90,6 +94,7 @@
 		EAC0E8AF1ECC04E700B0AE86 /* FeathersSwiftRest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeathersSwiftRest.h; sourceTree = "<group>"; };
 		EAC0E8B01ECC04E700B0AE86 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F25638C3224BA3CE00A190FD /* PropertySubquerySet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PropertySubquerySet.swift; path = Core/PropertySubquerySet.swift; sourceTree = "<group>"; };
+		F2CD2B2E229D8E3A0070AEF4 /* RestProviderAnalyticsDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestProviderAnalyticsDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,6 +150,7 @@
 			children = (
 				F25638C3224BA3CE00A190FD /* PropertySubquerySet.swift */,
 				EA9DB8401ECC072D007A1668 /* RestProvider.swift */,
+				F2CD2B2E229D8E3A0070AEF4 /* RestProviderAnalyticsDelegate.swift */,
 			);
 			name = Core;
 			sourceTree = "<group>";
@@ -467,6 +473,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EA9DB8661ECC11C6007A1668 /* RestProvider.swift in Sources */,
+				F2CD2B30229D8E3A0070AEF4 /* RestProviderAnalyticsDelegate.swift in Sources */,
 				F25638C5224BA3CE00A190FD /* PropertySubquerySet.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -476,6 +483,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EA9DB8741ECC14C3007A1668 /* RestProvider.swift in Sources */,
+				F2CD2B31229D8E3A0070AEF4 /* RestProviderAnalyticsDelegate.swift in Sources */,
 				F25638C6224BA3CE00A190FD /* PropertySubquerySet.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -485,6 +493,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EA9DB8891ECC15E4007A1668 /* RestProvider.swift in Sources */,
+				F2CD2B32229D8E3A0070AEF4 /* RestProviderAnalyticsDelegate.swift in Sources */,
 				F25638C7224BA3CE00A190FD /* PropertySubquerySet.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -494,6 +503,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EA9DB8411ECC072D007A1668 /* RestProvider.swift in Sources */,
+				F2CD2B2F229D8E3A0070AEF4 /* RestProviderAnalyticsDelegate.swift in Sources */,
 				F25638C4224BA3CE00A190FD /* PropertySubquerySet.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
