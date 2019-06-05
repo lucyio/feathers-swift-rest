@@ -203,7 +203,7 @@ fileprivate extension URL {
                         items.append(URLQueryItem(name: "\(key)[\(nestedKey)]", value: "\(valueDict[nestedKey]!)"))
                     }
                 }
-            } else if key == "$select" {
+            } else if key == PropertySubquerySet.select {
                 let array = value as! [String]
                 for (index, property) in array.enumerated() {
                     items.append(URLQueryItem(name: "\(key)[\(index)]", value: property))
