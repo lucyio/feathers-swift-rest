@@ -16,6 +16,10 @@ enum PropertySubqueryType {
 
 class PropertySubquerySet {
     
+    class var select: String {
+        return "$select"
+    }
+    
     private class var array: Set<String> {
         return Set<String>(["$in", "$nin"])
     }
