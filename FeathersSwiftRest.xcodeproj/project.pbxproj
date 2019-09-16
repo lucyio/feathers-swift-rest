@@ -32,6 +32,14 @@
 		EA9DB8741ECC14C3007A1668 /* RestProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA9DB8401ECC072D007A1668 /* RestProvider.swift */; };
 		EA9DB8891ECC15E4007A1668 /* RestProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA9DB8401ECC072D007A1668 /* RestProvider.swift */; };
 		EAC0E8B11ECC04E700B0AE86 /* FeathersSwiftRest.h in Headers */ = {isa = PBXBuildFile; fileRef = EAC0E8AF1ECC04E700B0AE86 /* FeathersSwiftRest.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F25638C4224BA3CE00A190FD /* PropertySubquerySet.swift in Sources */ = {isa = PBXBuildFile; fileRef = F25638C3224BA3CE00A190FD /* PropertySubquerySet.swift */; };
+		F25638C5224BA3CE00A190FD /* PropertySubquerySet.swift in Sources */ = {isa = PBXBuildFile; fileRef = F25638C3224BA3CE00A190FD /* PropertySubquerySet.swift */; };
+		F25638C6224BA3CE00A190FD /* PropertySubquerySet.swift in Sources */ = {isa = PBXBuildFile; fileRef = F25638C3224BA3CE00A190FD /* PropertySubquerySet.swift */; };
+		F25638C7224BA3CE00A190FD /* PropertySubquerySet.swift in Sources */ = {isa = PBXBuildFile; fileRef = F25638C3224BA3CE00A190FD /* PropertySubquerySet.swift */; };
+		F2CD2B2F229D8E3A0070AEF4 /* RestProviderAnalyticsDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2CD2B2E229D8E3A0070AEF4 /* RestProviderAnalyticsDelegate.swift */; };
+		F2CD2B30229D8E3A0070AEF4 /* RestProviderAnalyticsDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2CD2B2E229D8E3A0070AEF4 /* RestProviderAnalyticsDelegate.swift */; };
+		F2CD2B31229D8E3A0070AEF4 /* RestProviderAnalyticsDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2CD2B2E229D8E3A0070AEF4 /* RestProviderAnalyticsDelegate.swift */; };
+		F2CD2B32229D8E3A0070AEF4 /* RestProviderAnalyticsDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2CD2B2E229D8E3A0070AEF4 /* RestProviderAnalyticsDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -85,6 +93,8 @@
 		EAC0E8AC1ECC04E700B0AE86 /* FeathersSwiftRest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FeathersSwiftRest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EAC0E8AF1ECC04E700B0AE86 /* FeathersSwiftRest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeathersSwiftRest.h; sourceTree = "<group>"; };
 		EAC0E8B01ECC04E700B0AE86 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F25638C3224BA3CE00A190FD /* PropertySubquerySet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PropertySubquerySet.swift; path = Core/PropertySubquerySet.swift; sourceTree = "<group>"; };
+		F2CD2B2E229D8E3A0070AEF4 /* RestProviderAnalyticsDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestProviderAnalyticsDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,7 +148,9 @@
 		EA9DB8421ECC0737007A1668 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				F25638C3224BA3CE00A190FD /* PropertySubquerySet.swift */,
 				EA9DB8401ECC072D007A1668 /* RestProvider.swift */,
+				F2CD2B2E229D8E3A0070AEF4 /* RestProviderAnalyticsDelegate.swift */,
 			);
 			name = Core;
 			sourceTree = "<group>";
@@ -308,7 +320,6 @@
 				EAC0E8A81ECC04E700B0AE86 /* Frameworks */,
 				EAC0E8A91ECC04E700B0AE86 /* Headers */,
 				EAC0E8AA1ECC04E700B0AE86 /* Resources */,
-				EA376A551ED4864C001DEC50 /* Carthage */,
 			);
 			buildRules = (
 			);
@@ -325,7 +336,7 @@
 		EAC0E8A31ECC04E700B0AE86 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0920;
+				LastUpgradeCheck = 1020;
 				ORGANIZATIONNAME = FeathersJS;
 				TargetAttributes = {
 					EA9DB84F1ECC10B9007A1668 = {
@@ -352,10 +363,11 @@
 			};
 			buildConfigurationList = EAC0E8A61ECC04E700B0AE86 /* Build configuration list for PBXProject "FeathersSwiftRest" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = EAC0E8A21ECC04E700B0AE86;
 			productRefGroup = EAC0E8AD1ECC04E700B0AE86 /* Products */;
@@ -402,24 +414,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		EA376A551ED4864C001DEC50 /* Carthage */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/Alamofire.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/Result.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/ReactiveSwift.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/Feathers.framework",
-			);
-			name = Carthage;
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks\n";
-		};
 		EA376A571ED486FA001DEC50 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -479,6 +473,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				EA9DB8661ECC11C6007A1668 /* RestProvider.swift in Sources */,
+				F2CD2B30229D8E3A0070AEF4 /* RestProviderAnalyticsDelegate.swift in Sources */,
+				F25638C5224BA3CE00A190FD /* PropertySubquerySet.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -487,6 +483,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				EA9DB8741ECC14C3007A1668 /* RestProvider.swift in Sources */,
+				F2CD2B31229D8E3A0070AEF4 /* RestProviderAnalyticsDelegate.swift in Sources */,
+				F25638C6224BA3CE00A190FD /* PropertySubquerySet.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -495,6 +493,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				EA9DB8891ECC15E4007A1668 /* RestProvider.swift in Sources */,
+				F2CD2B32229D8E3A0070AEF4 /* RestProviderAnalyticsDelegate.swift in Sources */,
+				F25638C7224BA3CE00A190FD /* PropertySubquerySet.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -503,6 +503,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				EA9DB8411ECC072D007A1668 /* RestProvider.swift in Sources */,
+				F2CD2B2F229D8E3A0070AEF4 /* RestProviderAnalyticsDelegate.swift in Sources */,
+				F25638C4224BA3CE00A190FD /* PropertySubquerySet.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -535,7 +537,7 @@
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
@@ -567,7 +569,7 @@
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
@@ -596,7 +598,7 @@
 				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
 				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 				WATCHOS_DEPLOYMENT_TARGET = 2.0;
@@ -626,7 +628,7 @@
 				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
 				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 				WATCHOS_DEPLOYMENT_TARGET = 2.0;
@@ -656,7 +658,7 @@
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 				WATCHOS_DEPLOYMENT_TARGET = 2.0;
@@ -686,7 +688,7 @@
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 				WATCHOS_DEPLOYMENT_TARGET = 2.0;
@@ -707,6 +709,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -714,6 +717,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -768,6 +772,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -775,6 +780,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -831,7 +837,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
@@ -859,7 +865,7 @@
 				PRODUCT_NAME = FeathersSwiftRest;
 				SKIP_INSTALL = YES;
 				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};

@@ -8,8 +8,7 @@
 
 import Foundation
 import Alamofire
-import enum Result.Result
-import enum Result.NoError
+import Result
 import Feathers
 import ReactiveSwift
 
@@ -20,6 +19,7 @@ final public class RestProvider: Provider {
     }
 
     public let baseURL: URL
+    public weak var analyticsDelegate: RestProviderAnalyticsDelegate?
 
     public init(baseURL: URL) {
         self.baseURL = baseURL
@@ -36,16 +36,21 @@ final public class RestProvider: Provider {
                 return
             }
             let request = vSelf.buildRequest(from: endpoint)
+            let id = "\(endpoint.path):\(Mirror(reflecting: endpoint.method).children.first?.label ?? "")"
+            vSelf.analyticsDelegate?.willSendRequest(id, requestURL: request.url)
             Alamofire.request(request)
                 .validate()
                 .response(responseSerializer: DataRequest.jsonResponseSerializer()) { [weak self] response in
                     guard let vSelf = self else { return }
+                    vSelf.analyticsDelegate?.didReceiveResponse(id, requestURL: response.request?.url)
+                    
                     let result = vSelf.handleResponse(response)
-                    if let error = result.error {
-                        observer.send(error: error)
-                    } else if let response = result.value {
+                    do {
+                        let response = try result.get()
                         observer.send(value: response)
-                    } else {
+                    } catch let error where error is AnyFeathersError {
+                        observer.send(error: error as! AnyFeathersError)
+                    } catch {
                         observer.send(error: AnyFeathersError(FeathersNetworkError.unknown))
                     }
             }
@@ -88,15 +93,18 @@ final public class RestProvider: Provider {
                 observer.sendInterrupted()
                 return
             }
-            Alamofire.request(vSelf.baseURL.appendingPathComponent(path), method: method, parameters: parameters, encoding: encoding)
+            
+            let pathString = vSelf.baseURL.absoluteString.last == "/" ? String(path.dropFirst()) : path
+            Alamofire.request(vSelf.baseURL.appendingPathComponent(pathString), method: method, parameters: parameters, encoding: encoding)
                 .validate()
                 .response(responseSerializer: DataRequest.jsonResponseSerializer()) { response in
                     let result = vSelf.handleResponse(response)
-                    if let error = result.error {
-                        observer.send(error: error)
-                    } else if let response = result.value {
+                    do {
+                        let response = try result.get()
                         observer.send(value: response)
-                    } else {
+                    } catch let error where error is AnyFeathersError {
+                        observer.send(error: error as! AnyFeathersError)
+                    } catch {
                         observer.send(error: AnyFeathersError(FeathersNetworkError.unknown))
                     }
             }
@@ -107,7 +115,7 @@ final public class RestProvider: Provider {
     ///
     /// - Parameter dataResponse: Alamofire data response.
     /// - Returns: Result with an error or a successful response.
-    private func handleResponse(_ dataResponse: DataResponse<Any>) -> Result<Response, AnyFeathersError> {
+    private func handleResponse(_ dataResponse: DataResponse<Any>) -> Swift.Result<Response, AnyFeathersError> {
         // If the status code maps to a feathers error code, return that error.
         if let statusCode = dataResponse.response?.statusCode,
             let feathersError = FeathersNetworkError(statusCode: statusCode) {
@@ -146,6 +154,7 @@ final public class RestProvider: Provider {
         if let accessToken = endpoint.accessToken {
             urlRequest.allHTTPHeaderFields = [endpoint.authenticationConfiguration.header: accessToken]
         }
+        urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
         urlRequest.httpBody = endpoint.method.data != nil ? try? JSONSerialization.data(withJSONObject: endpoint.method.data!, options: []) : nil
         return urlRequest
     }
@@ -154,7 +163,8 @@ final public class RestProvider: Provider {
 
 fileprivate extension Service.Method {
 
-    fileprivate var httpMethod: HTTPMethod {
+    var httpMethod: HTTPMethod {
+    /// Mapping of feathers method to http method
         switch self {
         case .find: return .get
         case .get: return .get
@@ -173,11 +183,41 @@ fileprivate extension URL {
     ///
     /// - Parameter parameters: Query parameters.
     /// - Returns: New url with query parameters appended to the end.
-    fileprivate func URLByAppendingQueryParameters(parameters: [String: Any]) -> URL? {
+    func URLByAppendingQueryParameters(parameters: [String: Any]) -> URL? {
         guard var urlComponents = URLComponents(url: self, resolvingAgainstBaseURL: true) else {
             return self
         }
-        urlComponents.queryItems = urlComponents.queryItems ?? [] + parameters.map { URLQueryItem(name: $0, value: "\($1)") }
+        var items: [URLQueryItem] = []
+        
+        for (key, value) in parameters {
+            if let valueDict = value as? [String: Any] {
+                let valueDictKeys = Array(valueDict.keys)
+                for nestedKey in valueDictKeys {
+                    let type = PropertySubquerySet.type(for: nestedKey)
+                    switch type {
+                    case .array:
+                        guard let valuesArray = valueDict[nestedKey] as? [String] else {
+                            continue
+                        }
+                        for (index, object) in valuesArray.enumerated() {
+                            items.append(URLQueryItem(name: "\(key)[\(nestedKey)][\(index)]", value: "\(object)"))
+                        }
+                    case .singleValue:
+                        items.append(URLQueryItem(name: "\(key)[\(nestedKey)]", value: "\(valueDict[nestedKey]!)"))
+                    case .sort:
+                        items.append(URLQueryItem(name: "\(key)[\(nestedKey)]", value: "\(valueDict[nestedKey]!)"))
+                    }
+                }
+            } else if key == PropertySubquerySet.select {
+                let array = value as! [String]
+                for (index, property) in array.enumerated() {
+                    items.append(URLQueryItem(name: "\(key)[\(index)]", value: property))
+                }
+            } else {
+                items.append(URLQueryItem(name: key, value: "\(value)"))
+            }
+        }
+        urlComponents.queryItems = items
         return urlComponents.url
     }
     
@@ -185,7 +225,8 @@ fileprivate extension URL {
 
 fileprivate extension Endpoint {
 
-    fileprivate var url: URL {
+    var url: URL {
+    /// Builds url according to endpoints' method
         var url = baseURL.appendingPathComponent(path)
         switch method {
         case .get(let id, _):
@@ -199,12 +240,11 @@ fileprivate extension Endpoint {
         url = method.parameters != nil ? (url.URLByAppendingQueryParameters(parameters: method.parameters!) ?? url) : url
         return url
     }
-    
 }
 
 public extension Service.Method {
 
-    public var id: String? {
+    var id: String? {
         switch self {
         case .get(let id, _): return id
         case .update(let id, _, _),
@@ -214,7 +254,7 @@ public extension Service.Method {
         }
     }
 
-    public var parameters: [String: Any]? {
+    var parameters: [String: Any]? {
         switch self {
         case .find(let query): return query?.serialize()
         case .get(_, let query): return query?.serialize()
@@ -225,7 +265,7 @@ public extension Service.Method {
         }
     }
 
-    public var data: [String: Any]? {
+    var data: [String: Any]? {
         switch self {
         case .create(let data, _): return data
         case .update(_, let data, _): return data
