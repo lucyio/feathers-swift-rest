@@ -29,7 +29,7 @@ final public class RestProvider: Provider {
         //no-op
     }
 
-    public func request(endpoint: Endpoint) -> SignalProducer<Response, AnyFeathersError> {
+    public func request(endpoint: Endpoint) -> SignalProducer<Response, FeathersError> {
         return SignalProducer { [weak self] observer, disposable in
             guard let vSelf = self else {
                 observer.sendInterrupted()
@@ -48,20 +48,20 @@ final public class RestProvider: Provider {
                     do {
                         let response = try result.get()
                         observer.send(value: response)
-                    } catch let error where error is AnyFeathersError {
-                        observer.send(error: error as! AnyFeathersError)
+                    } catch let error where error is FeathersError {
+                        observer.send(error: error as! FeathersError)
                     } catch {
-                        observer.send(error: AnyFeathersError(FeathersNetworkError.unknown))
+                        observer.send(error: FeathersErrorFactory.makeError(failureReason: "No valid response found"))
                     }
             }
         }
     }
 
-    public final func authenticate(_ path: String, credentials: [String: Any]) -> SignalProducer<Response, AnyFeathersError> {
+    public final func authenticate(_ path: String, credentials: [String: Any]) -> SignalProducer<Response, FeathersError> {
         return authenticationRequest(path: path, method: .post, parameters: credentials, encoding: URLEncoding.httpBody)
     }
 
-    public func logout(path: String) -> SignalProducer<Response, AnyFeathersError> {
+    public func logout(path: String) -> SignalProducer<Response, FeathersError> {
         return authenticationRequest(path: path, method: .delete, parameters: nil, encoding: URLEncoding.default)
     }
 
@@ -87,7 +87,7 @@ final public class RestProvider: Provider {
     ///   - parameters: Parameters.
     ///   - encoding: Parameter encoding.
     ///   - completion: Completion block.
-    private func authenticationRequest(path: String, method: HTTPMethod, parameters: [String: Any]?, encoding: ParameterEncoding) -> SignalProducer<Response, AnyFeathersError>{
+    private func authenticationRequest(path: String, method: HTTPMethod, parameters: [String: Any]?, encoding: ParameterEncoding) -> SignalProducer<Response, FeathersError>{
         return SignalProducer { [weak self] observer, disposable in
             guard let vSelf = self else {
                 observer.sendInterrupted()
@@ -102,10 +102,10 @@ final public class RestProvider: Provider {
                     do {
                         let response = try result.get()
                         observer.send(value: response)
-                    } catch let error where error is AnyFeathersError {
-                        observer.send(error: error as! AnyFeathersError)
+                    } catch let error where error is FeathersError {
+                        observer.send(error: error as! FeathersError)
                     } catch {
-                        observer.send(error: AnyFeathersError(FeathersNetworkError.unknown))
+                        observer.send(error: FeathersErrorFactory.makeError(failureReason: "No valid response found"))
                     }
             }
         }
@@ -115,14 +115,13 @@ final public class RestProvider: Provider {
     ///
     /// - Parameter dataResponse: Alamofire data response.
     /// - Returns: Result with an error or a successful response.
-    private func handleResponse(_ dataResponse: DataResponse<Any>) -> Swift.Result<Response, AnyFeathersError> {
-        // If the status code maps to a feathers error code, return that error.
-        if let statusCode = dataResponse.response?.statusCode,
-            let feathersError = FeathersNetworkError(statusCode: statusCode) {
-            return .failure(AnyFeathersError(feathersError))
-        } else if let error = dataResponse.error {
-            // If the data response has an error, wrap it and return it.
-            return .failure(AnyFeathersError(FeathersNetworkError(error: error)))
+    private func handleResponse(_ dataResponse: DataResponse<Any>) -> Swift.Result<Response, FeathersError> {
+        if dataResponse.error != nil {
+            guard let unwrappedData = dataResponse.data,
+                let payload = try? JSONSerialization.jsonObject(with: unwrappedData, options: .mutableLeaves) as? [String: Any] else {
+                return .failure(FeathersErrorFactory.makeError(failureReason: "No response data found"))
+            }
+            return .failure(FeathersError(payload: payload))
         } else if let value = dataResponse.value {
             // If the response value is an array, there is no pagination.
             if let jsonArray = value as? [Any] {
@@ -141,7 +140,7 @@ final public class RestProvider: Provider {
                 }
             }
         }
-        return .failure(AnyFeathersError(FeathersNetworkError.unknown))
+        return .failure(FeathersErrorFactory.makeError(failureReason: "Parsing failure!"))
     }
 
     /// Build a request from the given endpiont.
