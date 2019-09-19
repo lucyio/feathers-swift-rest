@@ -116,15 +116,11 @@ final public class RestProvider: Provider {
     /// - Parameter dataResponse: Alamofire data response.
     /// - Returns: Result with an error or a successful response.
     private func handleResponse(_ dataResponse: DataResponse<Any>) -> Swift.Result<Response, FeathersError> {
-//        // If the status code maps to a feathers error code, return that error.
-//        if let statusCode = dataResponse.response?.statusCode,
-//            let feathersError = FeathersNetworkError(statusCode: statusCode) {
-//            return .failure(FeathersError(feathersError))
-//        } else if let error = dataResponse.error {
-//            // If the data response has an error, wrap it and return it.
-//            return .failure(FeathersError(FeathersNetworkError(error: error)))
         if dataResponse.error != nil {
-            let payload = (try? JSONSerialization.jsonObject(with: dataResponse.data!, options: .mutableLeaves)) as! [String: Any]
+            guard let unwrappedData = dataResponse.data,
+                let payload = try? JSONSerialization.jsonObject(with: unwrappedData, options: .mutableLeaves) as? [String: Any] else {
+                return .failure(FeathersErrorFactory.makeError(failureReason: "No response data found"))
+            }
             return .failure(FeathersError(payload: payload))
         } else if let value = dataResponse.value {
             // If the response value is an array, there is no pagination.
