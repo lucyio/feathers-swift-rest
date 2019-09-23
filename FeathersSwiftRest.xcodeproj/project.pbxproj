@@ -531,6 +531,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MARKETING_VERSION = 5.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.feathersjs.FeathersSwiftRest-macOS";
 				PRODUCT_NAME = FeathersSwiftRest;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -563,6 +564,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MARKETING_VERSION = 5.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.feathersjs.FeathersSwiftRest-macOS";
 				PRODUCT_NAME = FeathersSwiftRest;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -593,6 +595,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MARKETING_VERSION = 5.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.feathersjs.FeathersSwiftRest-tvOS";
 				PRODUCT_NAME = FeathersSwiftRest;
 				SDKROOT = appletvos;
@@ -623,6 +626,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MARKETING_VERSION = 5.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.feathersjs.FeathersSwiftRest-tvOS";
 				PRODUCT_NAME = FeathersSwiftRest;
 				SDKROOT = appletvos;
@@ -653,6 +657,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MARKETING_VERSION = 5.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.feathersjs.FeathersSwiftRest-watchOS";
 				PRODUCT_NAME = FeathersSwiftRest;
 				SDKROOT = watchos;
@@ -683,6 +688,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MARKETING_VERSION = 5.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.feathersjs.FeathersSwiftRest-watchOS";
 				PRODUCT_NAME = FeathersSwiftRest;
 				SDKROOT = watchos;
@@ -832,6 +838,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MARKETING_VERSION = 5.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.feathersjs.FeathersSwiftRest;
 				PRODUCT_NAME = FeathersSwiftRest;
 				SKIP_INSTALL = YES;
@@ -861,6 +868,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MARKETING_VERSION = 5.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.feathersjs.FeathersSwiftRest;
 				PRODUCT_NAME = FeathersSwiftRest;
 				SKIP_INSTALL = YES;
