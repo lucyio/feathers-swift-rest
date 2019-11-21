@@ -117,11 +117,20 @@ final public class RestProvider: Provider {
     /// - Returns: Result with an error or a successful response.
     private func handleResponse(_ dataResponse: DataResponse<Any>) -> Swift.Result<Response, FeathersError> {
         if dataResponse.error != nil {
-            guard let unwrappedData = dataResponse.data,
-                let payload = try? JSONSerialization.jsonObject(with: unwrappedData, options: .mutableLeaves) as? [String: Any] else {
-                return .failure(FeathersErrorFactory.makeError(failureReason: "No response data found"))
+            
+            if let unwrappedData = dataResponse.data, let payload = try? JSONSerialization.jsonObject(with: unwrappedData, options: .mutableLeaves) as? [String: Any] {
+                return .failure(FeathersError(payload: payload))
             }
-            return .failure(FeathersError(payload: payload))
+            
+            guard let alamofireError = dataResponse.error as? AFError else {
+                return .failure(FeathersErrorFactory.makeError(failureReason: "Unknown error occured"))
+            }
+            
+            let feathersError = FeathersError(payload: [:])
+            feathersError.code = alamofireError.responseCode ?? -1
+            feathersError.message = alamofireError.errorDescription ?? "Unknown error occured"
+            
+            return .failure(feathersError)
         } else if let value = dataResponse.value {
             // If the response value is an array, there is no pagination.
             if let jsonArray = value as? [Any] {
