@@ -126,11 +126,10 @@ final public class RestProvider: Provider {
                 return .failure(FeathersErrorFactory.makeError(failureReason: "Unknown error occured"))
             }
             
-            let feathersError = FeathersError(payload: [:])
-            feathersError.code = alamofireError.responseCode ?? -1
-            feathersError.message = alamofireError.errorDescription ?? "Unknown error occured"
+            let payload: [String: Any] = ["code": alamofireError.responseCode ?? -1,
+                                          "message": alamofireError.errorDescription ?? "No message found"]
             
-            return .failure(feathersError)
+            return .failure(FeathersError(payload: payload))
         } else if let value = dataResponse.value {
             // If the response value is an array, there is no pagination.
             if let jsonArray = value as? [Any] {
