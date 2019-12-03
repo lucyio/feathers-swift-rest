@@ -40,7 +40,7 @@ final public class RestProvider: Provider {
             vSelf.analyticsDelegate?.willSendRequest(id, requestURL: request.url)
             Alamofire.request(request)
                 .validate()
-                .response(responseSerializer: DataRequest.jsonResponseSerializer()) { [weak self] response in
+                .response(queue: .global(), responseSerializer: DataRequest.jsonResponseSerializer()) { [weak self] response in
                     guard let vSelf = self else { return }
                     vSelf.analyticsDelegate?.didReceiveResponse(id, requestURL: response.request?.url)
                     
